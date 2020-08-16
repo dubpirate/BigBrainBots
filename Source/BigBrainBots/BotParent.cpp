@@ -31,3 +31,19 @@ void ABotParent::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
+
+void ABotParent::ModifyHealth(float deltaHealth)
+{
+	if (Health + deltaHealth< 0)
+	{
+		Health = 0;
+	} 
+	else if (Health + deltaHealth > MaxHealth)
+	{
+		Health = MaxHealth;
+	}
+	 else
+	{
+		Health += deltaHealth;
+	}
+}
