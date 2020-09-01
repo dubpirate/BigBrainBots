@@ -38,9 +38,9 @@ void ABotParent::ModifyHealth(float deltaHealth)
 	{
 		Health = 0;
 	} 
-	else if (Health + deltaHealth > MaxHealth)
+	else if (Health + deltaHealth > Max_Health)
 	{
-		Health = MaxHealth;
+		Health = Max_Health;
 	}
 	 else
 	{
