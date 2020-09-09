@@ -27,6 +27,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, category="Stats")
 	float Gas_Multiplier;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "CharacterSwitching")
+	ABotParent* Next_Bot;
+
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* TopDownCameraComponent;

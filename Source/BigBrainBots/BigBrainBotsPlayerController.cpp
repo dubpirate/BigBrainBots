@@ -31,11 +31,16 @@ void ABigBrainBotsPlayerController::SetupInputComponent()
 	// set up gameplay key bindings
 	Super::SetupInputComponent();
 
+	//Movement (mouse)
 	InputComponent->BindAction("SetDestination", IE_Pressed, this, &ABigBrainBotsPlayerController::OnSetDestinationPressed);
 	InputComponent->BindAction("SetDestination", IE_Released, this, &ABigBrainBotsPlayerController::OnSetDestinationReleased);
 
+	//Movement (WASD/Controller)
 	InputComponent->BindAxis("MoveForward", this, &ABigBrainBotsPlayerController::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &ABigBrainBotsPlayerController::MoveRight);
+
+	//Switching Bot
+	InputComponent->BindAction("SwitchBot", IE_Pressed, this, &ABigBrainBotsPlayerController::switchBot);
 
 	// support touch devices 
 	InputComponent->BindTouch(EInputEvent::IE_Pressed, this, &ABigBrainBotsPlayerController::MoveToTouchLocation);
@@ -142,3 +147,16 @@ void ABigBrainBotsPlayerController::OnSetDestinationReleased()
 	// clear flag to indicate we should stop updating the destination
 	bMoveToMouseCursor = false;
 }
+
+void ABigBrainBotsPlayerController::switchBot() {
+	APawn* const MyPawn = GetPawn();
+	
+	if (MyPawn) {
+		ABotParent* bot = dynamic_cast<ABotParent*>(MyPawn);
+		if (bot != nullptr && bot->Next_Bot != nullptr) {
+			UnPossess();
+			Possess(bot->Next_Bot);
+		}
+	}
+}
+
