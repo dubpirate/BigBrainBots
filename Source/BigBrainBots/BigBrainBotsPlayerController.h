@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "BotParent.h"
 #include "BigBrainBotsPlayerController.generated.h"
 
 UCLASS()
@@ -34,6 +35,13 @@ protected:
 	
 	/** Navigate player to the given world location. */
 	void SetNewMoveDestination(const FVector DestLocation);
+
+	/** Movement methods */
+	void MoveForward(float Value);
+	void MoveRight(float Value);
+
+	/** Switch to the next bot */
+	void switchBot();
 
 	/** Input handlers for SetDestination action. */
 	void OnSetDestinationPressed();
