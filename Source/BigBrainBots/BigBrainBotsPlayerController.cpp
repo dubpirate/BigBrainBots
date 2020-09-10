@@ -155,8 +155,9 @@ void ABigBrainBotsPlayerController::switchBot() {
 		ABotParent* bot = dynamic_cast<ABotParent*>(MyPawn);
 		if (bot != nullptr && bot->Next_Bot != nullptr) {
 			UnPossess();
+            bot->Next_Bot->ModifyHealth(-25);
+            UE_LOG(LogTemp, Warning, TEXT("Health == : %f"), bot->Next_Bot->Health);
 			Possess(bot->Next_Bot);
 		}
 	}
 }
-
