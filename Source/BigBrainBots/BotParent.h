@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
+#include "GameFramework/Character.h"
 #include "BotParent.generated.h"
 
 UCLASS()
-class BIGBRAINBOTS_API ABotParent : public APawn
+class BIGBRAINBOTS_API ABotParent : public ACharacter
 {
 	GENERATED_BODY()
 
@@ -26,6 +26,17 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, category="Stats")
 	float Gas_Multiplier;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "CharacterSwitching")
+	ABotParent* Next_Bot;
+
+	/** Top down camera */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		class UCameraComponent* TopDownCameraComponent;
+
+	/** Camera boom positioning the camera above the character */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		class USpringArmComponent* CameraBoom;
 
 	// Todo: May not be completely necessary because of the name of the 
 	UPROPERTY(BlueprintReadOnly, category = "Stats")

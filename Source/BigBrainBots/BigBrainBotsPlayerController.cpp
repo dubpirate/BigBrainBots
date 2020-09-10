@@ -4,6 +4,8 @@
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "Runtime/Engine/Classes/Components/DecalComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/Controller.h"
 #include "BigBrainBotsCharacter.h"
 #include "Engine/World.h"
 
@@ -29,8 +31,16 @@ void ABigBrainBotsPlayerController::SetupInputComponent()
 	// set up gameplay key bindings
 	Super::SetupInputComponent();
 
+	//Movement (mouse)
 	InputComponent->BindAction("SetDestination", IE_Pressed, this, &ABigBrainBotsPlayerController::OnSetDestinationPressed);
 	InputComponent->BindAction("SetDestination", IE_Released, this, &ABigBrainBotsPlayerController::OnSetDestinationReleased);
+
+	//Movement (WASD/Controller)
+	InputComponent->BindAxis("MoveForward", this, &ABigBrainBotsPlayerController::MoveForward);
+	InputComponent->BindAxis("MoveRight", this, &ABigBrainBotsPlayerController::MoveRight);
+
+	//Switching Bot
+	InputComponent->BindAction("SwitchBot", IE_Pressed, this, &ABigBrainBotsPlayerController::switchBot);
 
 	// support touch devices 
 	InputComponent->BindTouch(EInputEvent::IE_Pressed, this, &ABigBrainBotsPlayerController::MoveToTouchLocation);
@@ -99,6 +109,33 @@ void ABigBrainBotsPlayerController::SetNewMoveDestination(const FVector DestLoca
 	}
 }
 
+void ABigBrainBotsPlayerController::MoveForward(float Value) {
+	APawn* const MyPawn = GetPawn();
+	if (MyPawn) {
+		// find out which way is forward
+		const FRotator Rotation = GetControlRotation();
+		const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+		// get forward vector
+		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		MyPawn->AddMovementInput(Direction, Value);
+	}
+}
+
+void ABigBrainBotsPlayerController::MoveRight(float Value) {
+	APawn* const MyPawn = GetPawn();
+	if (MyPawn) {
+		// find out which way is right
+		const FRotator Rotation = GetControlRotation();
+		const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+		// get right vector 
+		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+		// add movement in that direction
+		MyPawn->AddMovementInput(Direction, Value);
+	}
+}
+
 void ABigBrainBotsPlayerController::OnSetDestinationPressed()
 {
 	// set flag to keep updating destination until released
@@ -109,4 +146,18 @@ void ABigBrainBotsPlayerController::OnSetDestinationReleased()
 {
 	// clear flag to indicate we should stop updating the destination
 	bMoveToMouseCursor = false;
+}
+
+void ABigBrainBotsPlayerController::switchBot() {
+	APawn* const MyPawn = GetPawn();
+	
+	if (MyPawn) {
+		ABotParent* bot = dynamic_cast<ABotParent*>(MyPawn);
+		if (bot != nullptr && bot->Next_Bot != nullptr) {
+			UnPossess();
+            bot->Next_Bot->ModifyHealth(-25);
+            UE_LOG(LogTemp, Warning, TEXT("Health == : %f"), bot->Next_Bot->Health);
+			Possess(bot->Next_Bot);
+		}
+	}
 }
