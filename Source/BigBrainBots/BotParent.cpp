@@ -18,6 +18,7 @@ ABotParent::ABotParent()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+
 	// Don't rotate character to camera direction
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
@@ -54,7 +55,6 @@ void ABotParent::BeginPlay()
 void ABotParent::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
@@ -66,7 +66,7 @@ void ABotParent::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 void ABotParent::ModifyHealth(float deltaHealth)
 {
-	if (Health + deltaHealth< 0)
+	if (Health + deltaHealth < 0)
 	{
 		Health = 0;
 	} 

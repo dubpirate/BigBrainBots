@@ -1,5 +1,4 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
-
 #include "BigBrainBotsGameMode.h"
 #include "BigBrainBotsPlayerController.h"
 #include "BigBrainBotsCharacter.h"
