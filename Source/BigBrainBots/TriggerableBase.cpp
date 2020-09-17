@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include <cstdlib>
 #include "TriggerableBase.h"
 
 // Sets default values
@@ -26,8 +26,9 @@ void ATriggerableBase::Tick(float DeltaTime)
 }
 
 //Adds a new trigger to the trigger map
-void ATriggerableBase::AddTrigger(AInteractableBase* trigger) {
-    triggerMap[trigger] = false;
+void ATriggerableBase::AddTrigger(AInteractableBase* trigger, bool state) {
+    triggerMap[trigger] = state;
+    BlueprintStuff();
 }
 
 //Looks up a trigger in the trigger map, and updates its stored boolean value.
@@ -35,20 +36,21 @@ void ATriggerableBase::UpdateTrigger(AInteractableBase* trigger, bool newState) 
     if (triggerMap.count(trigger) > 0) {
         triggerMap[trigger] = newState;
     }
+    BlueprintStuff();
 }
 
 //returns the current state of the object (if all triggers are true). Calls "blueprintStuff" at the end
 bool ATriggerableBase::EvaulateTriggers() {
-    for (std::map<AInteractableBase*, bool>::iterator i = triggerMap.begin(); i != triggerMap.end(); i++) {
+    
+    for (auto i = triggerMap.begin(); i != triggerMap.cend(); i++) {
         if (i->second == false) {
             return false;
         }
     }
-    BlueprintStuff();
     return true;
 }
 
 //Called to pass actions up to blueprint level. Has no code by default.
 void ATriggerableBase::BlueprintStuff_Implementation() {
-
+    
 }

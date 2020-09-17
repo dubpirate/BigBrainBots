@@ -32,8 +32,8 @@ public:
     virtual void Tick(float DeltaTime) override;
 
     //Adds a new trigger to the trigger map
-    UFUNCTION(BlueprintCallable)
-    void AddTrigger(AInteractableBase* trigger);
+    UFUNCTION(BlueprintCallable, CallInEditor)
+    void AddTrigger(AInteractableBase* trigger, bool state);
 
     //Looks up a trigger in the trigger map, and updates its stored boolean value.
     UFUNCTION(BlueprintCallable)

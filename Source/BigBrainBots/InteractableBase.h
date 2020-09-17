@@ -19,7 +19,7 @@ public:
     UPROPERTY(EditAnywhere)
         bool State;
 
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
         ATriggerableBase* Triggered_Object;
 
 protected:
@@ -32,17 +32,18 @@ public:
 
     //Link this interactable to a triggerable
     UFUNCTION(BlueprintCallable)
-        void LinkToTriggerable(ATriggerableBase* triggerable);
+    void LinkToTriggerable(ATriggerableBase* triggerable);
 
     //Change between on/off, may need adjusting down the line
     UFUNCTION(BlueprintCallable)
-        void ToggleState();
+    void ToggleState();
 
     //Sets state of the interactable
     UFUNCTION(BlueprintCallable)
-        void SetState(bool newState);
+    void SetState(bool newState);
 
     //Returns the current state of this interactible
+    UFUNCTION(BlueprintCallable)
     bool GetState();
 
 };

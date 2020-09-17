@@ -17,6 +17,9 @@ AInteractableBase::AInteractableBase()
 void AInteractableBase::BeginPlay()
 {
     Super::BeginPlay();
+    if(Triggered_Object != nullptr){
+        LinkToTriggerable(Triggered_Object);
+    }
 }
 
 // Called every frame
@@ -31,17 +34,23 @@ bool AInteractableBase::GetState() {
 }
 
 void AInteractableBase::LinkToTriggerable(ATriggerableBase* triggerable) {
-    Triggered_Object = triggerable;
-    Triggered_Object->ATriggerableBase::AddTrigger(this);
+    if(triggerable != nullptr){
+        Triggered_Object = triggerable;
+        Triggered_Object->ATriggerableBase::AddTrigger(this, State);
+    }
 }
 
 void AInteractableBase::ToggleState() {
     State = !State;
-    Triggered_Object->UpdateTrigger(this, State);
+    if(Triggered_Object != nullptr){
+        Triggered_Object->UpdateTrigger(this, State);
+    }
 }
 
 void AInteractableBase::SetState(bool newState) {
     State = newState;
-    Triggered_Object->UpdateTrigger(this, State);
+    if(Triggered_Object != nullptr){
+        Triggered_Object->UpdateTrigger(this, State);
+    }
 }
 
