@@ -112,12 +112,16 @@ void ABigBrainBotsPlayerController::SetNewMoveDestination(const FVector DestLoca
 void ABigBrainBotsPlayerController::MoveForward(float Value) {
 	APawn* const MyPawn = GetPawn();
 	if (MyPawn) {
-		// find out which way is forward
+		/* find out which way is forward **RELATIVE TO THE PLAYERS CURRENT DIRECTION**
 		const FRotator Rotation = GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		*/
+
+		// Go forward, where forward = +x direction.
+		const FVector Direction = *(new FVector(1, 0, 0));
 		MyPawn->AddMovementInput(Direction, Value);
 	}
 }
@@ -125,12 +129,17 @@ void ABigBrainBotsPlayerController::MoveForward(float Value) {
 void ABigBrainBotsPlayerController::MoveRight(float Value) {
 	APawn* const MyPawn = GetPawn();
 	if (MyPawn) {
-		// find out which way is right
+
+		/* find out which way is right, RELATIVE TO THE PLAYER'S CURRENT DIRECTION.
 		const FRotator Rotation = GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 
 		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+		*/
+
+		// Go right, where right = +y direction.
+		const FVector Direction = *(new FVector(0, 1, 0));
 		// add movement in that direction
 		MyPawn->AddMovementInput(Direction, Value);
 	}
