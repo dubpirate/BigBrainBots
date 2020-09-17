@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BotParent.h"
+#include "BigBrainBotsPlayerController.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Camera/CameraComponent.h"
 #include "Components/DecalComponent.h"
@@ -62,6 +63,11 @@ void ABotParent::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void ABotParent::FellOutOfWorld(const class UDamageType & dmgType)
+{
+	ModifyHealth(-1.0f * Max_Health);
 }
 
 void ABotParent::ModifyHealth(float deltaHealth)
