@@ -4,35 +4,46 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "TriggerableBase.h"
 #include "InteractableBase.generated.h"
 
 UCLASS()
 class BIGBRAINBOTS_API AInteractableBase : public AActor
 {
-	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
-	AInteractableBase();
-    
+    GENERATED_BODY()
+
+public:
+    // Sets default values for this actor's properties
+    AInteractableBase();
+
     UPROPERTY(EditAnywhere)
-    bool State;
+        bool State;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+        ATriggerableBase* Triggered_Object;
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+    // Called when the game starts or when spawned
+    virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-    
+public:
+    // Called every frame
+    virtual void Tick(float DeltaTime) override;
+
+    //Link this interactable to a triggerable
+    UFUNCTION(BlueprintCallable)
+    void LinkToTriggerable(ATriggerableBase* triggerable);
+
     //Change between on/off, may need adjusting down the line
+    UFUNCTION(BlueprintCallable)
     void ToggleState();
-    
+
     //Sets state of the interactable
+    UFUNCTION(BlueprintCallable)
     void SetState(bool newState);
-    
+
     //Returns the current state of this interactible
+    UFUNCTION(BlueprintCallable)
     bool GetState();
-	
+
 };
