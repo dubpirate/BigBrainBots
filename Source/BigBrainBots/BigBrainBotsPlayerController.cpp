@@ -162,7 +162,7 @@ void ABigBrainBotsPlayerController::switchBot() {
 	
 	if (MyPawn) {
 		ABotParent* bot = dynamic_cast<ABotParent*>(MyPawn);
-		if (bot != nullptr && bot->Next_Bot != nullptr) {
+		if (bot != nullptr && bot->Next_Bot != nullptr && bot->Health > 0) {
 			UnPossess();
 			Possess(bot->Next_Bot);
 		}
