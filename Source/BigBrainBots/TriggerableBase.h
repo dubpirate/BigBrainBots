@@ -17,7 +17,7 @@ class BIGBRAINBOTS_API ATriggerableBase : public AActor
     GENERATED_BODY()
 
 private:
-    std::map<AInteractableBase*, bool> triggerMap;
+    TMap<AInteractableBase*, bool> TriggerMap = TMap<AInteractableBase*, bool>();
 
 public:
     // Sets default values for this actor's properties

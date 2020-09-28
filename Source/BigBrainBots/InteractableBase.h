@@ -17,10 +17,10 @@ public:
     AInteractableBase();
 
     UPROPERTY(EditAnywhere)
-        bool State;
+    bool State;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-        ATriggerableBase* Triggered_Object;
+    TArray<ATriggerableBase*> Triggerables = TArray<ATriggerableBase*>();
 
 protected:
     // Called when the game starts or when spawned
@@ -32,7 +32,7 @@ public:
 
     //Link this interactable to a triggerable
     UFUNCTION(BlueprintCallable)
-    void LinkToTriggerable(ATriggerableBase* triggerable);
+    void LinkTriggerables();
 
     //Change between on/off, may need adjusting down the line
     UFUNCTION(BlueprintCallable)
