@@ -16,10 +16,14 @@ AInteractableBase::AInteractableBase()
 // Called when the game starts or when spawned
 void AInteractableBase::BeginPlay()
 {
+    State = false;
     Super::BeginPlay();
-    if(Triggered_Object != nullptr){
-        LinkToTriggerable(Triggered_Object);
-    }
+    
+    LinkTriggerables();
+    
+//    if(Triggered_Object != nullptr){
+//        LinkToTriggerable(Triggered_Object);
+//    }
 }
 
 // Called every frame
@@ -33,24 +37,27 @@ bool AInteractableBase::GetState() {
     return State;
 }
 
-void AInteractableBase::LinkToTriggerable(ATriggerableBase* triggerable) {
-    if(triggerable != nullptr){
-        Triggered_Object = triggerable;
-        Triggered_Object->ATriggerableBase::AddTrigger(this, State);
+void AInteractableBase::LinkTriggerables() {
+    for(int i = 0; i < Triggerables.Num(); i++){
+        Triggerables[i]->AddTrigger(this, State);
     }
 }
 
 void AInteractableBase::ToggleState() {
     State = !State;
-    if(Triggered_Object != nullptr){
-        Triggered_Object->UpdateTrigger(this, State);
+    for(int i = 0; i < Triggerables.Num(); i++){
+        Triggerables[i]->UpdateTrigger(this, State);
     }
+    
+//    if(Triggered_Object != nullptr){
+//        Triggered_Object->UpdateTrigger(this, State);
+//    }
 }
 
 void AInteractableBase::SetState(bool newState) {
     State = newState;
-    if(Triggered_Object != nullptr){
-        Triggered_Object->UpdateTrigger(this, State);
+    for(int i = 0; i < Triggerables.Num(); i++){
+        Triggerables[i]->UpdateTrigger(this, State);
     }
 }
 

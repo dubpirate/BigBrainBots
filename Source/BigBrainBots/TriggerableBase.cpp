@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include <cstdlib>
 #include "TriggerableBase.h"
 
 // Sets default values
@@ -27,26 +26,27 @@ void ATriggerableBase::Tick(float DeltaTime)
 
 //Adds a new trigger to the trigger map
 void ATriggerableBase::AddTrigger(AInteractableBase* trigger, bool state) {
-    triggerMap[trigger] = state;
+    TriggerMap.Add(trigger, state);
     BlueprintStuff();
 }
 
 //Looks up a trigger in the trigger map, and updates its stored boolean value.
 void ATriggerableBase::UpdateTrigger(AInteractableBase* trigger, bool newState) {
-    if (triggerMap.count(trigger) > 0) {
-        triggerMap[trigger] = newState;
+    if (TriggerMap.Contains(trigger)) {
+        TriggerMap.Add(trigger, newState);
     }
     BlueprintStuff();
 }
 
 //returns the current state of the object (if all triggers are true). Calls "blueprintStuff" at the end
 bool ATriggerableBase::EvaulateTriggers() {
-    
-    for (auto i = triggerMap.begin(); i != triggerMap.cend(); i++) {
-        if (i->second == false) {
-            return false;
-        }
-    }
+    TMap<int32, AActor*> exampleIntegerToActorMap;
+     for (const TPair<AInteractableBase*, bool>& pair : TriggerMap)
+     {
+         if(!pair.Value){
+             return false;
+         }
+     }
     return true;
 }
 
