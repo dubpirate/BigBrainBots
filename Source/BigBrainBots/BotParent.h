@@ -16,6 +16,9 @@ public:
 	// Sets default values for this pawn's properties
 	ABotParent();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "Switching")
+	bool Is_Active;
+
 	UPROPERTY(BlueprintReadWrite, category="Stats")
 	float Max_Health;
 
@@ -27,9 +30,6 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, category="Stats")
 	float Gas_Multiplier;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "CharacterSwitching")
-	ABotParent* Next_Bot;
 
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
