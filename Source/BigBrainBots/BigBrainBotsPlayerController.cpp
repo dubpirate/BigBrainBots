@@ -7,12 +7,29 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "BigBrainBotsCharacter.h"
+#include "BotParent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
 
 ABigBrainBotsPlayerController::ABigBrainBotsPlayerController()
 {
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Crosshairs;
+
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABotParent::StaticClass(), FoundActors);
+
+	BotArray.Init(nullptr, 4);
+
+	for (int i = 0; i < FoundActors.Num(); i++) {
+		FString botClass = FoundActors[i]->GetClass()->GetName();
+
+		if (botClass == FString("StandardBot_BP_C")) { BotArray[0] = (ABotParent*)FoundActors[i]; }
+		if (botClass == FString("HeavyBot_BP_C")) { BotArray[1] = (ABotParent*)FoundActors[i]; }
+		if (botClass == FString("FlyBot_BP_C")) { BotArray[2] = (ABotParent*)FoundActors[i]; }
+		if (botClass == FString("GasBot_BP_C")) { BotArray[3] = (ABotParent*)FoundActors[i]; }
+	}
+
 }
 
 void ABigBrainBotsPlayerController::PlayerTick(float DeltaTime)
@@ -40,7 +57,13 @@ void ABigBrainBotsPlayerController::SetupInputComponent()
 	InputComponent->BindAxis("MoveRight", this, &ABigBrainBotsPlayerController::MoveRight);
 
 	//Switching Bot
-	InputComponent->BindAction("SwitchBot", IE_Pressed, this, &ABigBrainBotsPlayerController::switchBot);
+	InputComponent->BindAction("NextBot", IE_Pressed, this, &ABigBrainBotsPlayerController::NextBot);
+	InputComponent->BindAction("PrevBot", IE_Pressed, this, &ABigBrainBotsPlayerController::PrevBot);
+
+	InputComponent->BindAction<FPickBotDelegate>("SBotSwitch", IE_Pressed, this, &ABigBrainBotsPlayerController::PickBot, 0);
+	InputComponent->BindAction<FPickBotDelegate>("HBotSwitch", IE_Pressed, this, &ABigBrainBotsPlayerController::PickBot, 1);
+	InputComponent->BindAction<FPickBotDelegate>("FBotSwitch", IE_Pressed, this, &ABigBrainBotsPlayerController::PickBot, 2);
+	InputComponent->BindAction<FPickBotDelegate>("GBotSwitch", IE_Pressed, this, &ABigBrainBotsPlayerController::PickBot, 3);
 
 	// support touch devices 
 	InputComponent->BindTouch(EInputEvent::IE_Pressed, this, &ABigBrainBotsPlayerController::MoveToTouchLocation);
@@ -157,14 +180,50 @@ void ABigBrainBotsPlayerController::OnSetDestinationReleased()
 	bMoveToMouseCursor = false;
 }
 
-void ABigBrainBotsPlayerController::switchBot() {
-	APawn* const MyPawn = GetPawn();
-	
-	if (MyPawn) {
-		ABotParent* bot = dynamic_cast<ABotParent*>(MyPawn);
-		if (bot != nullptr && bot->Next_Bot != nullptr && bot->Health > 0) {
+void ABigBrainBotsPlayerController::NextBot() {
+
+	ABotParent* currentBot = dynamic_cast<ABotParent*>(GetPawn());
+	if (currentBot == nullptr) { return; }
+
+	int32 index = BotArray.Find(currentBot);
+	for (int i = 1; i < BotArray.Num(); i++) {
+		ABotParent* newBot = BotArray[(i + index) % BotArray.Num()];
+
+		if (newBot->Is_Active) {
 			UnPossess();
-			Possess(bot->Next_Bot);
+			Possess(newBot);
+			return;
 		}
 	}
 }
+
+void ABigBrainBotsPlayerController::PrevBot()
+{
+	ABotParent* currentBot = dynamic_cast<ABotParent*>(GetPawn());
+	if (currentBot == nullptr) { return; }
+
+	int32 index = BotArray.Find(currentBot);
+	UE_LOG(LogTemp, Warning, TEXT("index: %d"), index);
+	for (int i = BotArray.Num() - 1; i >= 1; i++) {	
+		ABotParent* newBot = BotArray[(i + index) % BotArray.Num()];
+
+		if (newBot->Is_Active) {
+			UnPossess();
+			Possess(newBot);
+			return;
+		}
+	}
+}
+
+void ABigBrainBotsPlayerController::PickBot(int i)
+{
+	if (i < 0 || i >= BotArray.Num()) { return; }
+	ABotParent* newBot = BotArray[i];
+
+	if (newBot->Is_Active) {
+		UnPossess();
+		Possess(newBot);
+		return;
+	}
+}
+

@@ -41,11 +41,22 @@ protected:
 	void MoveRight(float Value);
 
 	/** Switch to the next bot */
-	void switchBot();
+	//void switchBot();
+
+	void NextBot();
+
+	void PrevBot();
+
+	void PickBot(int i);
+
+	DECLARE_DELEGATE_OneParam(FPickBotDelegate, int);
 
 	/** Input handlers for SetDestination action. */
 	void OnSetDestinationPressed();
 	void OnSetDestinationReleased();
+
+private:
+	TArray<ABotParent*> BotArray;
 };
 
 
