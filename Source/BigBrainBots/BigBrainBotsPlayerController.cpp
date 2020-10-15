@@ -48,10 +48,6 @@ void ABigBrainBotsPlayerController::SetupInputComponent()
 	// set up gameplay key bindings
 	Super::SetupInputComponent();
 
-	//Movement (mouse)
-	InputComponent->BindAction("SetDestination", IE_Pressed, this, &ABigBrainBotsPlayerController::OnSetDestinationPressed);
-	InputComponent->BindAction("SetDestination", IE_Released, this, &ABigBrainBotsPlayerController::OnSetDestinationReleased);
-
 	//Movement (WASD/Controller)
 	InputComponent->BindAxis("MoveForward", this, &ABigBrainBotsPlayerController::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &ABigBrainBotsPlayerController::MoveRight);

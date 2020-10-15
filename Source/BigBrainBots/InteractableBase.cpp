@@ -39,14 +39,14 @@ bool AInteractableBase::GetState() {
 
 void AInteractableBase::LinkTriggerables() {
     for(int i = 0; i < Triggerables.Num(); i++){
-        Triggerables[i]->AddTrigger(this, State);
+        Triggerables[i]->AddTrigger(this, Inverted.Contains(Triggerables[i]) ? !State : State);
     }
 }
 
 void AInteractableBase::ToggleState() {
     State = !State;
     for(int i = 0; i < Triggerables.Num(); i++){
-        Triggerables[i]->UpdateTrigger(this, State);
+        Triggerables[i]->UpdateTrigger(this, Inverted.Contains(Triggerables[i]) ? !State : State);
     }
     
 //    if(Triggered_Object != nullptr){
@@ -57,7 +57,7 @@ void AInteractableBase::ToggleState() {
 void AInteractableBase::SetState(bool newState) {
     State = newState;
     for(int i = 0; i < Triggerables.Num(); i++){
-        Triggerables[i]->UpdateTrigger(this, State);
+        Triggerables[i]->UpdateTrigger(this, Inverted.Contains(Triggerables[i]) ? !State : State);
     }
 }
 
