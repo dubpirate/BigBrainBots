@@ -43,11 +43,14 @@ bool ATriggerableBase::EvaulateTriggers() {
     TMap<int32, AActor*> exampleIntegerToActorMap;
      for (const TPair<AInteractableBase*, bool>& pair : TriggerMap)
      {
-         if(!pair.Value){
+         if(!Using_OR && !pair.Value){
              return false;
          }
+         if(Using_OR && pair.Value){
+             return true;
+         }
      }
-    return true;
+    return !Using_OR;
 }
 
 //Called to pass actions up to blueprint level. Has no code by default.

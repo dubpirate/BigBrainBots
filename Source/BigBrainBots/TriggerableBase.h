@@ -20,6 +20,9 @@ private:
     TMap<AInteractableBase*, bool> TriggerMap = TMap<AInteractableBase*, bool>();
 
 public:
+    UPROPERTY(EditAnywhere)
+    bool Using_OR = false;
+    
     // Sets default values for this actor's properties
     ATriggerableBase();
 
