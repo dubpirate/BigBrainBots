@@ -25,9 +25,6 @@ public:
     
     // Sets default values for this actor's properties
     ATriggerableBase();
-    
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    bool Using_OR;
 
 protected:
     // Called when the game starts or when spawned
