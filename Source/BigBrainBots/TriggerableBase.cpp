@@ -7,6 +7,8 @@ ATriggerableBase::ATriggerableBase()
 {
     // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
+    
+    Using_OR = false;
 
 }
 
@@ -45,6 +47,9 @@ bool ATriggerableBase::EvaulateTriggers() {
      {
          if(!pair.Value){
              return false;
+         }
+         if(Using_OR && pair.Value){
+             return true;
          }
      }
     return true;
