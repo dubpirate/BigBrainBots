@@ -1,4 +1,4 @@
-
+    
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #pragma once
@@ -15,6 +15,7 @@ class ABigBrainBotsPlayerController : public APlayerController
 
 public:
 	ABigBrainBotsPlayerController();
+    void BeginPlay() override;
 
 protected:
 	/** True if the controlled character should navigate to the mouse cursor. */
@@ -40,6 +41,10 @@ protected:
 	/** Movement methods */
 	void MoveForward(float Value);
 	void MoveRight(float Value);
+    
+    /** Camera methods */
+    void AddControllerYawInput(float Value);
+    void AddControllerPitchInput(float Value);
 
 	/** Switch to the next bot */
 	//void switchBot();

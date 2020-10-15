@@ -5,31 +5,49 @@
 #include "Runtime/Engine/Classes/Components/DecalComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"
+
+#include "Camera/CameraComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "Components/InputComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+
 #include "GameFramework/Controller.h"
 #include "BigBrainBotsCharacter.h"
 #include "BotParent.h"
 #include "Kismet/GameplayStatics.h"
+
+#include "GameFramework/Pawn.h"
+
 #include "Engine/World.h"
 
 ABigBrainBotsPlayerController::ABigBrainBotsPlayerController()
 {
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Crosshairs;
+    
+}
 
-	TArray<AActor*> FoundActors;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABotParent::StaticClass(), FoundActors);
+void ABigBrainBotsPlayerController::BeginPlay()
+{
+    UE_LOG(LogTemp, Warning, TEXT("Some warning message") );
+    
+    TArray<AActor*> FoundActors;
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABotParent::StaticClass(), FoundActors);
 
-	BotArray.Init(nullptr, 4);
+    BotArray.Init(nullptr, 4);
 
-	for (int i = 0; i < FoundActors.Num(); i++) {
-		FString botClass = FoundActors[i]->GetClass()->GetName();
+    for (int i = 0; i < FoundActors.Num(); i++) {
+        FString botClass = FoundActors[i]->GetClass()->GetName();
 
-		if (botClass == FString("StandardBot_BP_C")) { BotArray[0] = (ABotParent*)FoundActors[i]; }
-		if (botClass == FString("HeavyBot_BP_C")) { BotArray[1] = (ABotParent*)FoundActors[i]; }
-		if (botClass == FString("FlyBot_BP_C")) { BotArray[2] = (ABotParent*)FoundActors[i]; }
-		if (botClass == FString("GasBot_BP_C")) { BotArray[3] = (ABotParent*)FoundActors[i]; }
-	}
-
+        if (botClass == FString("StandardBot_BP_C")) { BotArray[0] = (ABotParent*)FoundActors[i]; }
+        if (botClass == FString("HeavyBot_BP_C")) { BotArray[1] = (ABotParent*)FoundActors[i]; }
+        if (botClass == FString("FlyBot_BP_C")) { BotArray[2] = (ABotParent*)FoundActors[i]; }
+        if (botClass == FString("GasBot_BP_C")) { BotArray[3] = (ABotParent*)FoundActors[i]; }
+    }
+    
+    Possess(BotArray[0]);
+    
+    UE_LOG(LogTemp, Warning, TEXT("Some sug %i"), GetPawn() == nullptr);
 }
 
 void ABigBrainBotsPlayerController::PlayerTick(float DeltaTime)
@@ -48,6 +66,8 @@ void ABigBrainBotsPlayerController::SetupInputComponent()
 	// set up gameplay key bindings
 	Super::SetupInputComponent();
 
+    SetInputMode(FInputModeGameOnly());
+    
 	//Movement (WASD/Controller)
 	InputComponent->BindAxis("MoveForward", this, &ABigBrainBotsPlayerController::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &ABigBrainBotsPlayerController::MoveRight);
@@ -61,6 +81,9 @@ void ABigBrainBotsPlayerController::SetupInputComponent()
 	InputComponent->BindAction<FPickBotDelegate>("FBotSwitch", IE_Pressed, this, &ABigBrainBotsPlayerController::PickBot, 2);
 	InputComponent->BindAction<FPickBotDelegate>("GBotSwitch", IE_Pressed, this, &ABigBrainBotsPlayerController::PickBot, 3);
 
+    InputComponent->BindAxis("Turn", this, &ABigBrainBotsPlayerController::AddControllerYawInput);
+    InputComponent->BindAxis("LookUp", this, &ABigBrainBotsPlayerController::AddControllerPitchInput);
+    
 	// support touch devices 
 	InputComponent->BindTouch(EInputEvent::IE_Pressed, this, &ABigBrainBotsPlayerController::MoveToTouchLocation);
 	InputComponent->BindTouch(EInputEvent::IE_Repeat, this, &ABigBrainBotsPlayerController::MoveToTouchLocation);
@@ -138,9 +161,12 @@ void ABigBrainBotsPlayerController::MoveForward(float Value) {
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		*/
+        const FRotator Rotation = GetControlRotation();
+        const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-		// Go forward, where forward = +x direction.
-		const FVector Direction = *(new FVector(1, 0, 0));
+        // get forward vector
+        const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+        
 		MyPawn->AddMovementInput(Direction, Value);
 	}
 }
@@ -156,12 +182,29 @@ void ABigBrainBotsPlayerController::MoveRight(float Value) {
 		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		*/
-
-		// Go right, where right = +y direction.
-		const FVector Direction = *(new FVector(0, 1, 0));
-		// add movement in that direction
+        const FRotator Rotation = GetControlRotation();
+        const FRotator YawRotation(0, Rotation.Yaw, 0);
+        
+        // get right vector
+        const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+        // add movement in that direction
+        
 		MyPawn->AddMovementInput(Direction, Value);
 	}
+}
+
+void ABigBrainBotsPlayerController::AddControllerYawInput(float Value){
+    APawn* const MyPawn = GetPawn();
+    if (MyPawn) {
+        MyPawn->AddControllerYawInput(Value);
+    }
+}
+
+void ABigBrainBotsPlayerController::AddControllerPitchInput(float Value){
+    APawn* const MyPawn = GetPawn();
+    if (MyPawn) {
+        MyPawn->AddControllerPitchInput(Value);
+    }
 }
 
 void ABigBrainBotsPlayerController::OnSetDestinationPressed()
@@ -199,7 +242,6 @@ void ABigBrainBotsPlayerController::PrevBot()
 	if (currentBot == nullptr) { return; }
 
 	int32 index = BotArray.Find(currentBot);
-	UE_LOG(LogTemp, Warning, TEXT("index: %d"), index);
 	for (int i = BotArray.Num() - 1; i >= 1; i++) {	
 		ABotParent* newBot = BotArray[(i + index) % BotArray.Num()];
 
