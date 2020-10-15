@@ -65,3 +65,19 @@ FlyBot uses __E__ to press buttons in high up places.
 GasBot uses __E__ to activate his aura, that stops robots taking damage from... gas. Yeah, we know.
 
 HeavyBot can sit on pressureplates, because he's heavy.
+
+## Puzzle Pieces 🦾
+
+The Prologue will give you a good sense of the implemented features of BigBrainBots.
+
+The first few rooms  in the Prologue demonstrate the three kinds of switches, the pressureplate, and the buttons. The kinds of switches are aptly titled the Hold Switch because it doesn't change until you move away, the Timed Switch that deactivates after a delay, and the Flip Switch that stays in whatever state you set it in. These are all seperated by triggerable doors, that react to different inputs and interactions
+
+
+Some other features that are not implemented in the prologue, for instance:
+
+ - BatteryBot is a mini puzzle that was intended to be in the Susanova Canyon. An example BatteryBot can be found in the SandBox. You control a BatteryBot by stepping on a series of Directional Pressureplates. If you navigate to the charging station (a blue box) then press the pressureplate next to the charging station, a light will appear, indicating that the BatteryBot has been charged. This allows it drive to a --- and activate.
+ 
+
+
+- FlyBot Elevators allow FlyBot to maintain a hover height related to the pljllj
+ 
