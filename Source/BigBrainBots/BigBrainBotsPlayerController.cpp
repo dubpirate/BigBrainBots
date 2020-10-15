@@ -185,7 +185,7 @@ void ABigBrainBotsPlayerController::NextBot() {
 	for (int i = 1; i < BotArray.Num(); i++) {
 		ABotParent* newBot = BotArray[(i + index) % BotArray.Num()];
 
-		if (newBot != nullptr && newBot->Is_Active) {
+		if (newBot->Is_Active) {
 			UnPossess();
 			Possess(newBot);
 			return;
@@ -203,7 +203,7 @@ void ABigBrainBotsPlayerController::PrevBot()
 	for (int i = BotArray.Num() - 1; i >= 1; i++) {	
 		ABotParent* newBot = BotArray[(i + index) % BotArray.Num()];
 
-		if (newBot != nullptr && newBot->Is_Active) {
+		if (newBot->Is_Active) {
 			UnPossess();
 			Possess(newBot);
 			return;
@@ -216,7 +216,7 @@ void ABigBrainBotsPlayerController::PickBot(int i)
 	if (i < 0 || i >= BotArray.Num()) { return; }
 	ABotParent* newBot = BotArray[i];
 
-	if (newBot != nullptr && newBot->Is_Active) {
+	if (newBot->Is_Active) {
 		UnPossess();
 		Possess(newBot);
 		return;

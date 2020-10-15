@@ -20,11 +20,11 @@ private:
     TMap<AInteractableBase*, bool> TriggerMap = TMap<AInteractableBase*, bool>();
 
 public:
+    UPROPERTY(EditAnywhere)
+    bool Using_OR = false;
+    
     // Sets default values for this actor's properties
     ATriggerableBase();
-    
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    bool Using_OR;
 
 protected:
     // Called when the game starts or when spawned
