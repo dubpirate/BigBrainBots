@@ -19,6 +19,10 @@ public:
     UPROPERTY(EditAnywhere)
     bool State;
 
+    //Bool value is inversion - so default false.
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TSet<ATriggerableBase*> Inverted = TSet<ATriggerableBase*>();
+    
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TArray<ATriggerableBase*> Triggerables = TArray<ATriggerableBase*>();
 
