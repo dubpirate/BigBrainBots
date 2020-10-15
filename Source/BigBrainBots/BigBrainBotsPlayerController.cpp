@@ -15,6 +15,7 @@
 #include "BigBrainBotsCharacter.h"
 #include "BotParent.h"
 #include "Kismet/GameplayStatics.h"
+#include "BigBrainPlayerCameraManager.h"
 
 #include "GameFramework/Pawn.h"
 
@@ -22,9 +23,7 @@
 
 ABigBrainBotsPlayerController::ABigBrainBotsPlayerController()
 {
-	bShowMouseCursor = true;
-	DefaultMouseCursor = EMouseCursor::Crosshairs;
-    
+	PlayerCameraManagerClass = ABigBrainPlayerCameraManager::StaticClass();
 }
 
 void ABigBrainBotsPlayerController::BeginPlay()
@@ -89,6 +88,8 @@ void ABigBrainBotsPlayerController::SetupInputComponent()
 	InputComponent->BindTouch(EInputEvent::IE_Repeat, this, &ABigBrainBotsPlayerController::MoveToTouchLocation);
 
 	InputComponent->BindAction("ResetVR", IE_Pressed, this, &ABigBrainBotsPlayerController::OnResetVR);
+
+	bShowMouseCursor = false;
 }
 
 void ABigBrainBotsPlayerController::OnResetVR()

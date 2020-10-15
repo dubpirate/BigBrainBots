@@ -38,13 +38,15 @@ ABotParent::ABotParent()
 //	CameraBoom->SetupAttachment(RootComponent);
 //	CameraBoom->SetUsingAbsoluteRotation(true); // Don't want arm to rotate when character does
 //	CameraBoom->TargetArmLength = 800.f;
-//	CameraBoom->SetRelativeRotation(FRotator(-90.f, 0.f, 0.f));
+//	
 //	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
 
     CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
     CameraBoom->SetupAttachment(RootComponent);
-    CameraBoom->TargetArmLength = 300.0f; // The camera follows at this distance behind the character
+    CameraBoom->TargetArmLength = 700.0f; // The camera follows at this distance behind the character
+	CameraBoom->SetRelativeRotation(FRotator(-90.f, 0.f, 0.f));
     CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
+	CameraBoom->bDoCollisionTest = false;
 
     // Create a follow camera
     FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
