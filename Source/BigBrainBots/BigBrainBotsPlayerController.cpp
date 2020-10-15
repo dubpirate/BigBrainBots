@@ -48,10 +48,6 @@ void ABigBrainBotsPlayerController::SetupInputComponent()
 	// set up gameplay key bindings
 	Super::SetupInputComponent();
 
-	//Movement (mouse)
-	InputComponent->BindAction("SetDestination", IE_Pressed, this, &ABigBrainBotsPlayerController::OnSetDestinationPressed);
-	InputComponent->BindAction("SetDestination", IE_Released, this, &ABigBrainBotsPlayerController::OnSetDestinationReleased);
-
 	//Movement (WASD/Controller)
 	InputComponent->BindAxis("MoveForward", this, &ABigBrainBotsPlayerController::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &ABigBrainBotsPlayerController::MoveRight);
@@ -189,7 +185,7 @@ void ABigBrainBotsPlayerController::NextBot() {
 	for (int i = 1; i < BotArray.Num(); i++) {
 		ABotParent* newBot = BotArray[(i + index) % BotArray.Num()];
 
-		if (newBot->Is_Active) {
+		if (newBot != nullptr && newBot->Is_Active) {
 			UnPossess();
 			Possess(newBot);
 			return;
@@ -207,7 +203,7 @@ void ABigBrainBotsPlayerController::PrevBot()
 	for (int i = BotArray.Num() - 1; i >= 1; i++) {	
 		ABotParent* newBot = BotArray[(i + index) % BotArray.Num()];
 
-		if (newBot->Is_Active) {
+		if (newBot != nullptr && newBot->Is_Active) {
 			UnPossess();
 			Possess(newBot);
 			return;
@@ -220,7 +216,7 @@ void ABigBrainBotsPlayerController::PickBot(int i)
 	if (i < 0 || i >= BotArray.Num()) { return; }
 	ABotParent* newBot = BotArray[i];
 
-	if (newBot->Is_Active) {
+	if (newBot != nullptr && newBot->Is_Active) {
 		UnPossess();
 		Possess(newBot);
 		return;
