@@ -46,7 +46,7 @@ ABotParent::ABotParent()
     CameraBoom->TargetArmLength = 700.0f; // The camera follows at this distance behind the character
 	CameraBoom->SetRelativeRotation(FRotator(-90.f, 0.f, 0.f));
     CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
-	CameraBoom->bDoCollisionTest = false;
+	CameraBoom->bDoCollisionTest = true;
 
     // Create a follow camera
     FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));

@@ -28,7 +28,6 @@ ABigBrainBotsPlayerController::ABigBrainBotsPlayerController()
 
 void ABigBrainBotsPlayerController::BeginPlay()
 {
-    UE_LOG(LogTemp, Warning, TEXT("Some warning message") );
     
     TArray<AActor*> FoundActors;
     UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABotParent::StaticClass(), FoundActors);
@@ -45,8 +44,6 @@ void ABigBrainBotsPlayerController::BeginPlay()
     }
     
     Possess(BotArray[0]);
-    
-    UE_LOG(LogTemp, Warning, TEXT("Some sug %i"), GetPawn() == nullptr);
 }
 
 void ABigBrainBotsPlayerController::PlayerTick(float DeltaTime)
