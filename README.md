@@ -1,6 +1,16 @@
 # BigBrainBots 🤖
 
-Built by William Torkington, Hugh Marshall, and Zach Konings.
+Designers: Billy Chang and Marcus Carey
+Programmers: William Torkington, Hugh Marshall, and Zach Konings.
+
+BigBrainBots is a single-player puzzle adventure game, with a focus on environmental interaction. Four brave robots must use all of the tools at their disposal to escape from servitude - or be turned into scrap.
+
+Some of our game's key features include:
+
+- Four independent robots to play as at once.
+- An extensible, versatile interaction scheme that ties the environment together.
+- A set of levels with unique, distinct designs.
+- Many dangerous and deadly environmental hazards.
 
 ## Game Architecture 👷
 
@@ -52,7 +62,7 @@ When you've chosen a level, hit the play button on the top right hand corner.
 
 __W, A, S, D__ control the movement of each bot, and __the mouse__ controls the camera.
 
-Use __Tab__ or __1, 2, 3, 4__ to switch between bots.
+Use __Tab__, __Shift__ or __1, 2, 3, 4__ to switch between bots.
 
 ### Special Abilities 👼
 
@@ -70,14 +80,11 @@ HeavyBot can sit on pressureplates, because he's heavy.
 
 The Prologue will give you a good sense of the implemented features of BigBrainBots.
 
-The first few rooms  in the Prologue demonstrate the three kinds of switches, the pressureplate, and the buttons. The kinds of switches are aptly titled the Hold Switch because it doesn't change until you move away, the Timed Switch that deactivates after a delay, and the Flip Switch that stays in whatever state you set it in. These are all seperated by triggerable doors, that react to different inputs and interactions
+The first few rooms  in the Prologue demonstrate the three kinds of switches, the pressureplate, and the buttons. The kinds of switches are aptly titled the Hold Switch because it doesn't change until you move away, the Timed Switch that deactivates after a delay, and the Flip Switch that stays in whatever state you set it in. These are all separated by triggerable doors that react to different inputs and interactions.
 
 
 Some other features that are not implemented in the prologue, for instance:
 
- - BatteryBot is a mini puzzle that was intended to be in the Susanova Canyon. An example BatteryBot can be found in the SandBox. You control a BatteryBot by stepping on a series of Directional Pressureplates. If you navigate to the charging station (a blue box) then press the pressureplate next to the charging station, a light will appear, indicating that the BatteryBot has been charged. This allows it drive to a --- and activate.
+ - BatteryBot is a mini puzzle that was intended to be in the Susanova Canyon. An example BatteryBot can be found in the SandBox. You control a BatteryBot by stepping on a series of Directional Pressureplates. If you navigate to the charging station (a blue box) then press the pressureplate next to the charging station, a light will appear, indicating that the BatteryBot has been charged. This allows it to activate other interactables, and thereby complete puzzles.
  
-
-
-- FlyBot Elevators allow FlyBot to maintain a hover height related to the pljllj
- 
+- FlyBot Elevators allow FlyBot to maintain a hover height relative to the elevator it's standing on, a fix harder than expected.
