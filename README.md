@@ -85,9 +85,6 @@ The first few rooms  in the Prologue demonstrate the three kinds of switches, th
 
 Some other features that are not implemented in the prologue, for instance:
 
- - BatteryBot is a mini puzzle that was intended to be in the Susanova Canyon. An example BatteryBot can be found in the SandBox. You control a BatteryBot by stepping on a series of Directional Pressureplates. If you navigate to the charging station (a blue box) then press the pressureplate next to the charging station, a light will appear, indicating that the BatteryBot has been charged. This allows it drive to a --- and activate.
+ - BatteryBot is a mini puzzle that was intended to be in the Susanova Canyon. An example BatteryBot can be found in the SandBox. You control a BatteryBot by stepping on a series of Directional Pressureplates. If you navigate to the charging station (a blue box) then press the pressureplate next to the charging station, a light will appear, indicating that the BatteryBot has been charged. This allows it to activate other interactables, and thereby complete puzzles.
  
-
-
-- FlyBot Elevators allow FlyBot to maintain a hover height related to the pljllj
- 
+- FlyBot Elevators allow FlyBot to maintain a hover height relative to the elevator it's standing on, a fix harder than expected.
